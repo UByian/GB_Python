@@ -125,3 +125,33 @@ count_subjects()
 # [{"firm_1": 5000, "firm_2": 3000, "firm_3": 1000}, {"average_profit": 2000}]
 #
 # Подсказка: использовать менеджер контекста.
+
+import json
+margin = {}
+mr = {}
+marg = 0
+marg_aver = 0
+i = 0
+with open('file7.txt', 'r') as f_file:
+    for line in f_file:
+        name, firm, earnings, expenses = line.split()
+        margin[name] = int(earnings) - int(expenses)
+        if margin.setdefault(name) >= 0:
+            marg = marg + margin.setdefault(name)
+            i += 1
+    if i != 0:
+        marg_aver = marg / i
+        print(f'Прибыль средняя - {marg_aver:.2f}')
+    else:
+        print(f'Убыток у всех')
+    mr = {'Средняя прибыль': round(marg_aver)}
+    margin.update(mr)
+    print(f'Прибыль каждой компании - {margin}')
+
+with open('file7.json', 'w') as write_js:
+    json.dump(margin, write_js)
+
+    js_str = json.dumps(margin)
+    print(f'Создан json-объект: \n '
+          f' {js_str}')
+
