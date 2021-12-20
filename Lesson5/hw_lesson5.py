@@ -49,7 +49,6 @@ with open('file3_salary.txt', 'r', encoding="utf-8") as file:
         sal.append(i[1])
     print(f'Оклад менее 20 тыс. {poor}, средний доход {sum(map(float, sal)) / len(sal)}')
 
-
 # 4. Необходимо написать программу, открывающую файл на чтение и считывающую построчно данные.
 # При этом английские числительные должны заменяться на русские.
 # Новый блок строк должен записываться в новый текстовый файл.
@@ -94,12 +93,20 @@ write_summ()
 # Сформировать словарь, содержащий название предмета и общее количество занятий по нему.
 # Вывести словарь на экран.
 
-subj = {}
-with open('file6.txt', 'r', encoding="utf-8") as lesson:
-    for line in lesson:
-        subject, lecture, practice, lab = line.split()
-        subj[subject] = int(lecture) + int(practice) + int(lab)
-    print(f'Общее количество часов по предмету - \n {subj}')
+def count_subjects():
+    try:
+        subj = {}
+        with open('file6.txt', 'r', encoding="utf-8") as lesson:
+            for line in lesson:
+                name, subject = line.split(':')
+                sum_subj = sum(map(int, ''.join([i for i in subject if i == ' ' or ('0' <= i <= '9')]).split()))
+                subj[name] = sum_subj
+                print(f"{subj}")
+    except FileNotFoundError:
+        return 'Файл не найден.'
+
+
+count_subjects()
 
 # 7. Создать вручную и заполнить несколькими строками текстовый файл, в котором каждая строка должна содержать данные о фирме:
 # название, форма собственности, выручка, издержки.
@@ -118,4 +125,3 @@ with open('file6.txt', 'r', encoding="utf-8") as lesson:
 # [{"firm_1": 5000, "firm_2": 3000, "firm_3": 1000}, {"average_profit": 2000}]
 #
 # Подсказка: использовать менеджер контекста.
-
